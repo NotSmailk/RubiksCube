@@ -6,6 +6,7 @@ public class SelectCubeFace : MonoBehaviour
     private CubeState cubeState;
     private ReadCubeSides readCube;
     private int layerMask = 1 << 8;
+    private List<List<GameObject>> cubeSides;
 
     private void Start()
     {
@@ -25,7 +26,7 @@ public class SelectCubeFace : MonoBehaviour
             {
                 GameObject face = hit.collider.gameObject;
 
-                List<List<GameObject>> cubeSides = new List<List<GameObject>>()
+                cubeSides = new List<List<GameObject>>()
                 {
                     cubeState.up,
                     cubeState.down,
@@ -41,7 +42,7 @@ public class SelectCubeFace : MonoBehaviour
                     {
                         cubeState.PickUp(cubeSide);
 
-                        cubeSide[4].transform.parent.GetComponent<PivotRotation>().RotateDefaults(cubeSide);
+                        cubeSide[4].transform.GetComponentInParent<PivotRotation>().RotateDefaults(cubeSide);
                     }
                 }
             }

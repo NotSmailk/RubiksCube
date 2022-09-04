@@ -16,7 +16,6 @@ public class PivotRotation : MonoBehaviour
 
     private float sensitivity = 0.4f;
     private float speed = 300f;
-    private float lastAngle = 0f;
 
     private int dragCoef = 1;
 
@@ -50,48 +49,26 @@ public class PivotRotation : MonoBehaviour
 
     private void SpinSide(List<GameObject> side)
     {
-        rotation = side[4].transform.rotation.eulerAngles;
+        rotation = Vector3.zero;
 
-        Vector3 mouseOffset = (InputManager.inputPos - mouseRef) * dragCoef; 
-        
-        Vector2 pivotScreenPoint = RectTransformUtility.WorldToScreenPoint(Camera.main, side[4].transform.position);
+        Vector3 mouseOffset = (InputManager.inputPos - mouseRef) * dragCoef;
 
-        //float angle = (mouseOffset.x + mouseOffset.y) * sensitivity;
-        float angle = Vector2.Angle(pivotScreenPoint, InputManager.inputPos);
-
-        Debug.Log(angle);
-
-        //if (side == cubeState.front)
-        //    rotation.x = angle * -1f;
-        //if (side == cubeState.back)
-        //    rotation.x = angle * 1f;
-        //if (side == cubeState.left)
-        //    rotation.z = angle * -1f;
-        //if (side == cubeState.right)
-        //    rotation.z = angle * 1f;
-        //if (side == cubeState.up)
-        //    rotation.y = angle * 1f;
-        //if (side == cubeState.down)
-        //    rotation.y = angle * -1f;
+        float angle = (mouseOffset.x + mouseOffset.y) * sensitivity;
 
         if (side == cubeState.front)
-            rotation.x = angle;
+            rotation.x = angle * -1f;
         if (side == cubeState.back)
-            rotation.x = angle;
+            rotation.x = angle * 1f;
         if (side == cubeState.left)
-            rotation.z = angle;
+            rotation.z = angle * -1f;
         if (side == cubeState.right)
-            rotation.z = angle;
+            rotation.z = angle * 1f;
         if (side == cubeState.up)
-            rotation.y = angle;
+            rotation.y = angle * 1f;
         if (side == cubeState.down)
-            rotation.y = angle;
+            rotation.y = angle * -1f;
 
-        lastAngle = angle;
-
-        transform.rotation = Quaternion.Euler(rotation);
-
-        //transform.Rotate(rotation, Space.Self);
+        transform.Rotate(rotation, Space.Self);
 
         mouseRef = InputManager.inputPos;
     }
